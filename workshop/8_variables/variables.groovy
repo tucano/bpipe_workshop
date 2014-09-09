@@ -4,7 +4,7 @@ about title: "Variables in groovy"
 REFERENCE_GENOME="hg19"
 
 // RUN WITH: bpipe run variables.groovy example.*
-explore_inputs =
+implicit_variables =
 {
   // Implicit variables are special variables
   // that are made available to your Bpipe pipeline stages automatically.
@@ -53,8 +53,10 @@ variables_evaluation =
   // you could embed single quotes around the file name
   exec "echo INPUT FILE WITH EXTENSION IS '$input.bam'"
   // Triple quotes are useful because they accept embedded newlines.
+  // NOTE: bpipe strip newlines by defatult !! rembember to separate commands with ";"
   exec """
-    echo ${input.bam}
+    echo ${input.bam};
+    echo ${input.csv};
   """
 }
 
@@ -66,4 +68,4 @@ bash_variables =
   exec "for i in \$(ls *.fastq.gz); do file $i; done"
 }
 
-run { explore_inputs + variables_evaluation + bash_variables }
+run { implicit_variables + variables_evaluation + bash_variables }

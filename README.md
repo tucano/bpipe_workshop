@@ -310,7 +310,7 @@ Explore chr and region variables
 2. regions_from_file.groovy
 
 
-## 8 VARIABLES
+## 8. VARIABLES
 
 * implicit variables - variables defined by Bpipe for you
 * explicit variables - variables you define yourself
@@ -339,9 +339,95 @@ Bpipe offers a "magic" ".prefix" extension that lets you refer to an output, but
 
 File: variables.groovy
 
-#### BRANCH VARIABLES
+## 9. BRANCH VARIABLES
+
+A common need is to communicate information between disparate parts of your pipeline. Often this information is scoped to the context of a particular branch or segment of your pipeline. Bpipe supports this by the use of "branch variables".
+
+File: branches.groovy
+
+## 10. DIR
+
+Sometimes a command you want requires not the name of an output file, but the name of the directory in which that file resides. This can cause a bit of confusion to Bpipe, because the real output is the file, but what you reference in your command is the directory.
+
+To help with this, Bpipe offers a special meaning for the "dir" extension. When you reference $output.dir Bpipe treats it as a reference to the output file, but it passes the directory in which the file resides to the command that is executing.
+
+The $input.dir variable also has special meaning. In this case the dir is taken to mean that the whole directory itself should be considered an input, and Bpipe will search for an input that is in fact a directory, rather than a file. This enables you to use the file-extension metaphor for selecting directories within your pipeline for input to your commands.
+
+While the input.dir is a fixed value, output.dir is a writeable value, so you can use it to change the value of directory to which outputs will go. Bpipe currently expects all outputs from a pipeline stage to go to the same directory, so setting this to multiple values or different values will not work.
+
+File: dir.groovy
+
+Here we wish to have fastqc put its output zip file into a directory called "qc_data". However fastqc won't let us tell it the full path of the zip file, only the directory name.
+
+File: fastqc.groovy
+
+## 11. VAR and USING
+
+Define a variable with a default value, that can be overridden with a Using construct, or by passing a value on the command line (--param option).
+
+File: hello.groovy
 
 
-#### VAR and USING
 
+File: var.groovy
+
+```
+bpipe run -r var.groovy
+bpipe run -p name="Mars" -r var.groovy
+bpipe run -p name="Mars" -p greetings="Ciao" -r var.groovy
+```
+
+The **"Pretend mode"**
+
+File: pretend.groovy
+
+```
+bpipe run pretend.groovy *.fgz
+bpipe run -p pretend=true pretend.groovy *.fgz
+```
+
+## 12. FILTER AND TRANSFORM
+
+**FILTER:** In general you will use **filter** where you are keeping the same format for the data but performing some operation on the data.
+
+**TRANSFORM:** If you have a command that converts a CSV file called foo.csv to an XML file, you can easily declare a section of your script to output foo.xml using a transform with the name 'xml'.
+
+Files:
+
+1. filter_and_transform.groovy
+2. transform_to.groovy
+
+
+## 13. PRODUCE
+
+The produce statement declares a block of statements that will be executed transactionally to create a given set of outputs. In this context, "transactional" means that all the statements either succeed together or fail together so that outputs are either fully created, or none are created (in reality, some outputs may be created but Bpipe will move such outputs to the trash folder). Although you do not need to use produce to use Bpipe, using produce adds robustness and clarity to your Bpipe scripts by making explicit the outputs that are created from a particular pipeline stage. This causes the following behavior:
+
+* If a statement in the enclosed block fails or is interrupted, the specified outputs will be "cleaned up", ie. moved to the trash folder
+* The implicit variable 'output' will be defined as the specified value(s), allowing it to be used in the enclosing block
+* The specified output will become the default input to the next stage in the pipeline
+* If the specified output already exists and is newer than all the input files then the produce block will not be executed.
+
+A wildcard pattern can also be provided as input to produce. In such a case, the $output variable is not assigned a value, but after the produce block executes, the file system is scanned for files matching the wild card pattern and any files found that were not present before running the command are treated as outputs of the block.
+
+Note: as Bpipe assumes ALL matching new files are outputs from the produce block, using a wild card pattern inside a parallel block should be treated with caution, as multiple executing pathways may "see" each other's files.
+
+Files:
+
+1. produce.groovy
+2. define_outputs.groovy
+3. wildcards.groovy
+
+**TODO ADD EXAMPLE FOR HANDLING DIFFERENT COMPRESSION TYPES (fastq, fgz, fastq.gz, fqz)**
+
+
+## 14. GLOB
+
+The glob function is useful if you want to match a set of files as inputs to a pipeline stage and you are not able to achieve it using the normal Bpipe input variables. For example, in situations where you want to match a complicated set of files, or files that are drawn from across different pipeline branches that don't feed their inputs to each other. A call to glob can be used inside a from statement to feed the matched files into the input variables so that they can be referenced in exec and other statements in pipeline stages.
+
+
+File: glob.groovy
+
+## 15. FROM
+
+The from statement reshapes the inputs to be the most recent output file(s) matching the given pattern for the following block. This is useful when a task needs an input that was produced earlier in the pipeline than the previous stage, or other similar cases where your inputs don't match the defaults that Bpipe assumes.
 

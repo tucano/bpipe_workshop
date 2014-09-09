@@ -18,9 +18,6 @@ align_bwa =
   // We are going to transform FASTQ into a .bam file
   transform("bam")
   {
-    // The magic $threads variable used below will (by default) use 50% of all the available cores on your computer
-    // for each alignment command (thus taking 100% of available threads).
-    // You can control it by running using the -n command, eg, to run using 4 cores in total: bpipe run -n 4 align.groovy
     exec """
       bwa mem $REFERENCE_GENOME $input1.fgz $input2.fgz |
       samtools view -bSu - |
