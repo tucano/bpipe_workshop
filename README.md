@@ -529,3 +529,17 @@ Files:
 1. unix_grep.groovy
 2. grep.groovy
 
+
+## 24. NOTIFICATION AND EMAILS
+
+Dirs:
+
+1. plain
+2. html
+
+
+## 25. SEND
+
+
+
+
