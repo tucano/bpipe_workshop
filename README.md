@@ -417,7 +417,9 @@ Files:
 2. define_outputs.groovy
 3. wildcards.groovy
 
-**TODO ADD EXAMPLE FOR HANDLING DIFFERENT COMPRESSION TYPES (fastq, fgz, fastq.gz, fqz)**
+#### HANDLING DIFFERENT FASTQ COMPRESSIONS WITH PRODUCE
+
+File: align.groovy
 
 
 ## 14. GLOB
@@ -430,4 +432,100 @@ File: glob.groovy
 ## 15. FROM
 
 The from statement reshapes the inputs to be the most recent output file(s) matching the given pattern for the following block. This is useful when a task needs an input that was produced earlier in the pipeline than the previous stage, or other similar cases where your inputs don't match the defaults that Bpipe assumes.
+
+The patterns accepted by from are glob-like expression using * to represent a wildcard. A pattern with no wild card is treated as a file extension, so for example "csv" is treated as "*.csv", but will only match the first (most recent) CSV file. By contrast, using *.csv directly will cause all CSV files from the last stage that output a CSV file to match the first parameter. This latter form is particularly useful for gathering all the files of the same type output by different parallel stages.
+
+Often a from would be embedded inside a produce, transform, or filter block, but that is not required. In such a case, from can be joined directly to the same block by preceding the transform or filter directly with the 'from' statement.
+
+File: from.groovy
+
+## 16. DOC AND ABOUT
+
+```
+bpipe run -r doc.groovy ../../minify/sample1/*.fgz
+```
+
+## 17. BPIPE_LIB
+
+Bpipe looks in a folder in your home directory called "bpipes" for files that can define pipeline stages. When you run bpipe, it loads all the pipeline stages from any file in this folder that ends with the ".groovy" file extension. When you save such files, all the pipeline stages and variables defined in there become available to any pipelines that you run.
+
+Let's define it with BPIPE_LIB suing the subdir of 17_BPIPELIB
+
+```
+cd 17_BPIPELIB
+cd bpipe_common_modules
+echo $BPIPE_LIB
+export BPIPE_LIB=`pwd`
+echo $BPIPE_LIB
+```
+
+
+## 18. REQUIRES
+
+Specify a parameter or variable that must be provided for this pipeline stage to run. The variable can be provided with a Using construct, by passing a value on the command line (--param option), or simply by defining the variable directly in the pipeline script. If the variable is not defined by one of these mechanisms, Bpipe prints out an error message to the user, including the message defined by the requires statement.
+
+Let's redefine BPIPE_LIB
+
+```
+cd 18_Requires
+cd bpipe_common_modules
+echo $BPIPE_LIB
+export BPIPE_LIB=`pwd`
+echo $BPIPE_LIB
+```
+
+## 19. SEGMENT
+
+Defines a reusable segment of a pipeline that can be made up of multiple pipeline stages. The segment then behaves just like a normal pipeline stage itself. This statement is useful when you have a commonly reoccurring sequence of pipeline stages that you wish to use multiple times in your pipelines, or even multiple times in a single pipeline.
+
+File: segment.groovy
+
+
+## 20. LOAD
+
+Imports the pipeline stages, variables and functions in the specified file into your pipeline script.
+
+Currently the contents of files loaded using load are not imported directly into the file as if included literally. Instead they are scheduled to be imported when you construct a pipline. This means that when you execute a run or segment command, Bpipe loads them at that point to make them available within the scope of the run or segment statement. The result of this is that you cannot refer to them with global scope directly.
+
+As of Bpipe 0.9.8.5, a file loaded with load can itself contain load statements so that you can build multiple levels of dependencies. Use this feature with caution, however, as there is no checking for cyclic depenencies, and thus it is possible to put Bpipe into an infinite loop by having two files that load each other.
+
+File: load.groovy
+
+
+## 21. FORWARD
+
+A forward instruction overrides the default files that are used for inputs to the next pipeline stage with files that you specify explicitly. You can provide a hard coded file name, but ideally you will pass files that are based on the input or output implicit variables that Bpipe creates automatically so that your pipeline stage remains generic.
+
+Bpipe uses heuristics to select the correct output from a pipeline stage that would be passed forward by default to the next stage as an input (assuming the next stage doesn't specify any constraints about what kind of input it wants). Sometimes however, the output from a pipeline stage is not usually wanted by following stages or Bpipe's logic selects the wrong output. In these cases it is useful to override the default with your own logic to specify which output should become the default.
+
+File: forward.groovy
+
+
+## 22. MULTI
+
+The multi statement executes multiple commands in parallel and waits for them all to finish. If any of the commands fail the whole pipeline stage fails, and all the failures are reported.
+
+Generally you will want to use Bpipe's built in parallelization features to run multiple commands in parallel. However sometimes that may not fit how you want to model your pipeline stages. The multi statement let's you perform small-scale parallelization inside your pipeline stages.
+
+If you wish to pass a computed list of commands to multi, use the form multiExec instead (see example below).
+
+Files:
+
+1. multi.groovy
+2. multiexec.groovy
+3. sampe.groovy
+
+
+## 23. GREP
+
+The grep statement is an internal convenience function that processes the input file line by line for each line matching a given regular expression.
+
+In the first form, the body is executed for each line in the input file that matches and an implicit variable line is defined. The body can execute regular commands using exec or it can use native Groovy / Java commands to process the data. An implicit variable out is defined as an output stream that can write to the current output file, making it convenient to use grep to filter and process lines and write extracted data to the output file.
+
+In the second form grep works very much like the command line grep with both the input and output file taken from the input and output variables. In this case, all matching lines from the input are written to the output.
+
+Files: 
+
+1. unix_grep.groovy
+2. grep.groovy
 
