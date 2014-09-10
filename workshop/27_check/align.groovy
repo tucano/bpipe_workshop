@@ -27,11 +27,12 @@ align_bwa =
       samtools sort - $output.bam.prefix;
       sleep 20;
     """
-  }
-  check {
-    exec "[-s $output]"
-  } otherwise {
-    fail "The output file had zero length"
+
+    check {
+      exec "[ -s $output ]"
+    } otherwise {
+      fail "The output file had zero length"
+    }
   }
 }
 
@@ -57,6 +58,12 @@ picard_merge =
         ASSUME_SORTED=true
         USE_THREADING=true
     """
+
+    check {
+      exec "[ -s $output ]"
+    } otherwise {
+      fail "The output file had zero length"
+    }
   }
 }
 
@@ -77,6 +84,12 @@ mark_duplicates =
         ASSUME_SORTED=true
         METRICS_FILE=${output.prefix}.metrics
     """
+
+    check {
+      exec "[ -s $output ]"
+    } otherwise {
+      fail "The output file had zero length"
+    }
   }
 }
 

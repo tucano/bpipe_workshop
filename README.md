@@ -540,6 +540,23 @@ Dirs:
 
 ## 25. SEND
 
+Files: 
+
+1. send.groovy
+
+
+## 26. FAIL AND SUCCEED
+
+## 27. CHECK
+
+## 28. RESOURCE MANAGERS
+
+## 29. A Real bioinformatic pipeline
+
+## 30. R
+
+## 31. REPORTS WITH BPIPE, R AND KNITR
+
 
 
 
