@@ -232,6 +232,10 @@ bpipe run maps.groovy
 bpipe run files.groovy
 ```
 
+#### SIMPLE TEMPLATE ENGINE BASICS
+
+File: template.groovy
+
 ## 4. EXEC
 
 A minimal pipeline is composed by:
@@ -554,6 +558,12 @@ Files:
 ## 29. A Real bioinformatic pipeline
 
 ## 30. R
+
+Files:
+
+1. rscript.groovy
+2. coverage.groovy
+
 
 ## 31. REPORTS WITH BPIPE, R AND KNITR
 

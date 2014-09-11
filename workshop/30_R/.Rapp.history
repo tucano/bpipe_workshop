@@ -1,0 +1,79 @@
+linmodEst <- function(x, y)#
+{#
+## compute QR-decomposition of x#
+qx <- qr(x)#
+## compute (x’x)^(-1) x’y#
+coef <- solve.qr(qx, y)#
+## degrees of freedom and standard deviation of residuals#
+df <- nrow(x)-ncol(x)#
+sigma2 <- sum((y - x%*%coef)^2)/df#
+## compute sigma^2 * (x’x)^-1#
+vcov <- sigma2 * chol2inv(qx$qr)#
+colnames(vcov) <- rownames(vcov) <- colnames(x)#
+list(coefficients = coef,#
+vcov = vcov,#
+sigma = sqrt(sigma2),#
+df = df)#
+}
+data(cats, package="MASS")
+linmodEst(cbind(1, cats$Bwt), cats$Hwt)
+lm1 <- lm(Hwt~Bwt, data=cats)
+lm1
+rm(list=ls())
+ls()
+uberSum <- function(a,b) { return a + b }
+uberSum <- function(a,b) { a + b }
+uberSum(3,4)
+ls()
+package.skeleton(name="UberSum")
+dir()
+uberSum <- function(a,b) { a + b }
+ls()
+dir()
+package.skeleton(name="UberSum")
+library(flowFIt)
+library(flowFit)
+?proliferationFitting
+require(flowFitExampleData)
+source("http://bioconductor.org/biocLite.R")#
+biocLite("flowFitExampleData")
+?proliferationFitting
+data(PKH26data)
+library(flowFitExampleData)
+data(PKH26data)
+PKH26data
+parent.fitting <-  parentFitting(PKH26data[[1]], "FL2-Height LOG")#
+    my.fit <- proliferationFitting(PKH26data[[2]], "FL2-Height LOG", parent.fitting@parentPeakPosition, parent.fitting@parentPeakSize)
+my.fit
+a <- 1
+a
+my.fit
+plot(a)
+class(my.fit)
+plot(my.fit)
+plot(my.fit, which=3)
+rm(list=ls())
+rainbow(10)
+rm(list=ls())
+demo()
+demo("graphics")
+pdf("out.pdf")
+demo("graphics")
+dev.off()
+setwd("Documents/Devel/Code/bpipe_workshop/workshop/30_R/")
+dir()
+data <- read.delim("samples_hsmetrics.txt")
+data
+?read.delim
+data <- read.delim("samples_hsmetrics.txt", stringsAsFactors=FALSE)
+data
+data <- read.delim("samples_hsmetrics.txt", stringsAsFactors=FALSE, row.names=1)
+data
+hist(data)
+mean(data$PCT_TARGET_BASES_100X)
+mean(data$PCT_TARGET_BASES_100X, data$PCT_TARGET_BASES_2X)
+cbind(mean(data$PCT_TARGET_BASES_100X), mean(data$PCT_TARGET_BASES_2X))
+cbind( mean(data$PCT_TARGET_BASES_2X), mean(data$PCT_TARGET_BASES_10X), mean(data$PCT_TARGET_BASES_20X), mean(data$PCT_TARGET_BASES_30X),mean(data$PCT_TARGET_BASES_100X))
+barplot(cbind( mean(data$PCT_TARGET_BASES_2X), mean(data$PCT_TARGET_BASES_10X), mean(data$PCT_TARGET_BASES_20X), mean(data$PCT_TARGET_BASES_30X),mean(data$PCT_TARGET_BASES_100X)))
+hsmetrics_data <- read.delim("$input.txt", stringsAsFactors=FALSE, row.names=1)
+hsmetrics_data <- read.delim("samples_hsmetrics.txt", stringsAsFactors=FALSE, row.names=1)

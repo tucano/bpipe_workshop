@@ -40,7 +40,7 @@ try
   // RUN WITH BPIPE IF WE HAVE Bpipe in CLASSPATH
   Bpipe.run { testing_map }
 }
-catch(Exception e)
+catch(groovy.lang.MissingPropertyException e)
 {
   // RUN WITH GROOVY: execute the closure
   testing_map()
