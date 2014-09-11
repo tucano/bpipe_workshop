@@ -1,0 +1,5 @@
+Hello!
+Just now ($date)
+Pipeline at path: $full_path
+Fired this event: $event --> $description
+A kiss from your bpipe pipelines executor.

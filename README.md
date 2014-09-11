@@ -551,11 +551,35 @@ Files:
 
 ## 26. FAIL AND SUCCEED
 
+DIR simple:
+
+1. fail.groovy	
+
+```
+bpipe run fail.groovy samples_hsmetrics.html
+```
+
+2. parallel_fail.groovy
+
+```
+bpipe run parallel_fail.groovy samples/*.txt
+```
+
+DIR with_report:
+
+1. fail_and_report.groovy
+
 ## 27. CHECK
+
+skip
 
 ## 28. RESOURCE MANAGERS
 
+skip?
+
 ## 29. A Real bioinformatic pipeline
+
+
 
 ## 30. R
 

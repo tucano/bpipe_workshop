@@ -1,0 +1,37 @@
+Report for Project: ${PROJECTNAME}
+==========================================
+
+*Analysis by ${AUTHOR}*
+
+---
+
+### Table of Contents
+
+* [Project Overview](#overview)
+* [Data Quality](#quality)
+
+```{r setup}
+library(xtable)
+hsmetrics_data <- read.delim("$METRICS", stringsAsFactors=FALSE, row.names=1)
+```
+
+# <a name="overview"></a> OVERVIEW
+
+$RATIONALE
+
+# <a name="quality"></a> QUALITY
+
+```{r quality, results='asis'}
+print(xtable(hsmetrics_data, align=rep("c",ncol(hsmetrics_data)+1)), type="html", include.rownames=TRUE)
+```
+
+```{r coverage}
+covdata <- c(
+  mean(hsmetrics_data\$PCT_TARGET_BASES_10X),
+  mean(hsmetrics_data\$PCT_TARGET_BASES_20X),
+  mean(hsmetrics_data\$PCT_TARGET_BASES_30X)
+)
+names(covdata) <- c("10X","20X","30X")
+bp <- barplot(covdata*100, las=1, ylim=c(0,100), col="grey", main="Cumulative distribution of target coverage")
+text(bp, 0, paste(round(covdata*100, digits=2),"%"),cex=1,pos=3)
+```

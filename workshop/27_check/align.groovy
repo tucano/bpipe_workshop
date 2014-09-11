@@ -21,15 +21,29 @@ align_bwa =
     // The magic $threads variable used below will (by default) use 50% of all the available cores on your computer
     // for each alignment command (thus taking 100% of available threads).
     // You can control it by running using the -n command, eg, to run using 4 cores in total: bpipe run -n 4 align.groovy
-    exec """
-      bwa mem $REFERENCE_GENOME $input1.fgz $input2.fgz |
-      samtools view -bSu - |
-      samtools sort - $output.bam.prefix;
-      sleep 20;
-    """
+
+    if (branch.name == "sample1_L001.004")
+    {
+      exec "touch $output.bam"
+    }
+    else
+    {
+      exec """
+        bwa mem $REFERENCE_GENOME $input1.fgz $input2.fgz |
+        samtools view -bSu - |
+        samtools sort - $output.bam.prefix;
+      """
+    }
+    // exec """
+    //   bwa mem $REFERENCE_GENOME $input1.fgz $input2.fgz |
+    //   samtools view -bSu - |
+    //   samtools sort - $output.bam.prefix;
+    // """
 
     check {
-      exec "[ -s $output ]"
+      exec """
+        [[ -s $output ]] | false
+      """
     } otherwise {
       fail "The output file had zero length"
     }
@@ -58,12 +72,6 @@ picard_merge =
         ASSUME_SORTED=true
         USE_THREADING=true
     """
-
-    check {
-      exec "[ -s $output ]"
-    } otherwise {
-      fail "The output file had zero length"
-    }
   }
 }
 
@@ -84,12 +92,6 @@ mark_duplicates =
         ASSUME_SORTED=true
         METRICS_FILE=${output.prefix}.metrics
     """
-
-    check {
-      exec "[ -s $output ]"
-    } otherwise {
-      fail "The output file had zero length"
-    }
   }
 }
 
