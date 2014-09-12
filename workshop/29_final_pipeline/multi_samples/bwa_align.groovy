@@ -1,16 +1,38 @@
 about title: "A simple pipeline to align paired reads"
 
 // USAGE: bpipe run -r align.groovy *.fagz
-REFERENCE_GENOME = "../../minify/genome/chr22.fa"
+REFERENCE_GENOME = "../../../minify/genome/chr22.fa"
 PICMERGE         = "java -jar ~/libexec/picard/MergeSamFiles.jar"
 MARKDUPLICATES   = "java -Djava.io.tmpdir=/tmp -jar ~/libexec/picard/MarkDuplicates.jar"
 BWA              = "/usr/local/bin/bwa"
 SAMTOOLS         = "/usr/local/bin/samtools"
 
-inputs: 'fgz' : 'Paired reads r1-r2'
+// 1. We slurp the json file passed as argument
+import groovy.json.JsonSlurper
+branches = new JsonSlurper().parseText(new File(args[0]).text)
+
+
+prepare =
+{
+  branch.sample = branch.name
+  // OUTPUT DIR IS THE SAMPLE DIR
+  output.dir    = branch.sample
+
+  // create a scratch dir if doesn't exists and copy SampleSheet.csv
+  produce("SampleSheet.csv")
+  {
+    exec """
+      mkdir -p ${branch.sample};
+      cp $input.csv $output.csv
+    """
+  }
+}
 
 align_bwa =
 {
+  // OUTPUT DIR IS THE SAMPLE DIR
+  output.dir = branch.sample
+
   doc title: "Align DNA reads with bwa mem",
       desc: "Use bwa mem to align reads on the reference genome.",
       constraints: "Input must be compressed (fastq.gz)",
@@ -33,6 +55,9 @@ align_bwa =
 
 picard_merge =
 {
+  // OUTPUT DIR IS THE SAMPLE DIR
+  output.dir = branch.sample
+
   doc title: "Merge BAM files",
       author: "davide.rambaldi@gmail.com"
 
@@ -56,6 +81,9 @@ picard_merge =
 
 mark_duplicates =
 {
+  // OUTPUT DIR IS THE SAMPLE DIR
+  output.dir = branch.sample
+
   doc title: "Mark Duplicates in BAM files",
       author: "davide.rambaldi@gmail.com"
 
@@ -76,6 +104,8 @@ mark_duplicates =
 
 flagstat =
 {
+  // OUTPUT DIR IS THE SAMPLE DIR
+  output.dir = branch.sample
   doc title: "Stats on BAM file sent via email",
       author: "davide.rambaldi@gmail.com"
 
@@ -88,5 +118,7 @@ flagstat =
 
 run
 {
-  "%_R*_%.fgz" * [align_bwa] + picard_merge + mark_duplicates + flagstat
+  branches * [
+    prepare + "%_R*_%.fgz" * [align_bwa] + picard_merge + mark_duplicates + flagstat
+  ]
 }

@@ -2,7 +2,7 @@ about title: "Bpipe succeed"
 
 check_coverage =
 {
-  var minimal_cov : 30.0
+  var minimal_cov : 5.0
 
   if ( file(input).text.toBigDecimal() < minimal_cov )
   {
