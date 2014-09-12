@@ -1,4 +1,4 @@
-about title: "Let's play with regions from a file"
+about title: "Get regions from a file"
 
 // We want somethins like this
 example_regions = [
@@ -16,7 +16,7 @@ new File(args[0]).eachLine { line ->
 region_stage =
 {
   branch.region = branch.name
-  println "I am BRANCH with name ${branch.name} and I will work on region ${branch.region}"
+  println "I will work on region ${branch.region}"
 }
 
 run {
