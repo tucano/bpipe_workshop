@@ -1,10 +1,10 @@
 about title: "Bpipe dir"
 
+// OVERRIDE THE OUTPUT DIRECTORY
 hello =
 {
   output.dir = "out_dir"
-  def myOutput = output.txt
-  exec "cp $input.csv $myOutput"
+  exec "cp $input.csv $output.txt"
 }
 
 run { hello }
