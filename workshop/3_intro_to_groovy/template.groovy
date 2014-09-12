@@ -12,7 +12,8 @@ template_test = {
   ]
 
   def output = engine.createTemplate(template).make(binding)
-  new File("output.html").write(output.toString())
+  println output
+  // new File("output.html").write(output.toString())
 }
 
 try

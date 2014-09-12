@@ -7,7 +7,8 @@ testing_strings =
 
   // THIS IS A SINGLE LINE COMMENT
 
-  // Groovy uses both " and ' for strings. Either can be used. Using either type of string allows you to use strings with quotations easily.
+  // Groovy uses both " and ' for strings. Either can be used.
+  // Using either type of string allows you to use strings with quotations easily.
   println "he said 'cheese' once"
   println 'he said "cheese!" again'
 
@@ -15,29 +16,38 @@ testing_strings =
   String world = "world"
   print "hello " + world + "\n"
 
-  // Regular strings in Groovy cannot span multiple lines.
-  // if you have a block of text which you wish to use but don't want to have to encode it all
-  // (e.g. if its a block of HTML or something) then you can use the """ syntax.
+  // Regular strings in Groovy can span multiple lines, you use the """ syntax.
+  println """
+    This is an indented multiline String
+    This is an indented multiline String
+    This is an indented multiline String
+  """
+
+  // We can strip indentation from multiline strings:
+  println """
+    This is an indented multiline String
+    This is an indented multiline String
+    This is an indented multiline String
+  """.stripIndent()
 
   /*
+   * Strings that are declared inside double-quotes
+   * (i.e. either single double-quotes or triple double-quotes for multi-line strings)
+   * can contain arbitrary expressions inside them as shown above using the ${expression}
+   *
    * "def" is a replacement for a type name.
    * In variable definitions it is used to indicate that you don't care about the type.
+   *
    */
   def name = "James"
   def text = """\
   hello there ${name}
   how are you today?
   """
-
   println(text)
 
-  // GStrings
   String foxtype = 'quick'
   foxcolor = ['b', 'r', 'o', 'w', 'n']
-
-  // Strings that are declared inside double-quotes
-  // (i.e. either single double-quotes or triple double-quotes for multi-line strings)
-  // can contain arbitrary expressions inside them as shown above using the ${expression} syntax
   println "The $foxtype ${foxcolor.join()} fox"
 
   // Some string methods
@@ -62,7 +72,7 @@ testing_strings =
     PHRASE: $u
     USING TOKENS: '\\s',',','?'
     TOKENIZED: ${u.tokenize(" ,?")}
-  """.stripIndent() // This method remove indentation from a multiline string
+  """.stripIndent()
 
   // STRINGS ARE IMMUTABLE IN GROOVY
   String x = "If winter comes, can spring be far behind?"
