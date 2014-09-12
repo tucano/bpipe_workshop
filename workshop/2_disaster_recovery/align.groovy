@@ -44,7 +44,7 @@ picard_merge =
     def input_strings = inputs.collect() { return "I=" + it}.join(" ")
     // CORRECT is: $PICMERGE $input_strings
     exec """
-      $PICMERGE $input_strings
+      $PICMERGE
         O=$output
         VALIDATION_STRINGENCY=SILENT
         CREATE_INDEX=false
