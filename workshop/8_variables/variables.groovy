@@ -31,6 +31,10 @@ implicit_variables =
   // EXPLICIT VARIABLES
   println "The Explicit variables are shared between braches/stages: REFERENCE_GENOME IS:$REFERENCE_GENOME"
 
+  // STAGE VARIABLES USE def!!!!!!!!!!!!!!!!
+  def stage_var = "test"
+  println "STAGE VAR: $stage_var"
+
   // EXTENSION SYNTAX
   println "THE FIRST BAM FILE IS: ${input.bam}"
   println "THE FIRST GZ FILE IS: ${input.gz}"
@@ -49,7 +53,7 @@ implicit_variables =
 variables_evaluation =
 {
   // Double quotes cause variables to be expanded before they are passed to the shell.
-  exec "echo INPUT FILE IS $input"
+  exec "echo INPUT FILES: $inputs"
   // you could embed single quotes around the file name
   exec "echo INPUT FILE WITH EXTENSION IS '$input.bam'"
   // Triple quotes are useful because they accept embedded newlines.
