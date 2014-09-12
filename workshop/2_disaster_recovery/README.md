@@ -45,3 +45,43 @@ Now that we have checked that the command is correct, rerun with:
 ```
 bpipe retry
 ```
+
+Let's try the "move to trash if I am not sure" feature.
+In the pipeline merge stage I have added a "false" to force fail of the stage "merge".
+
+```
+bpipe run trash_example.groovy ../../minify/sample1/*.fgz
+```
+
+The pipeline will fail with:
+
+```
+[...]
+
+Cleaned up file sample1.merge.bam to .bpipe/trash/sample1.merge.bam
+Pipeline failed! (2)
+
+Command failed with exit status = 1 :
+
+[...]
+```
+
+Bpipe have kindly moved my intermediate file to the trash dir for inspection.
+
+Verify the bam file:
+
+```
+samtools view .bpipe/trash/sample1.merge.bam
+```
+
+Looks good, let's move it back to the working dir:
+
+```
+mv .bpipe/trash/sample1.merge.bam .
+```
+
+Now remove the "false" statement and retry the pipeline:
+
+```
+bpipe retry
+```
