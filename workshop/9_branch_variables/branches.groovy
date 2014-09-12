@@ -2,7 +2,7 @@ about title: "Bpipe branches"
 
 @Transform("bam")
 align = {
-  // THis is a LOCAL variable that have THIS STAGE SCOPE
+  // This is a LOCAL variable that have THIS STAGE SCOPE
   def local_var = "test"
   // In opposite branch variables propagate on all subsequent stages of this branch
   // THE BRANCH NAME DEPENDS ON THE REGEXP USED
