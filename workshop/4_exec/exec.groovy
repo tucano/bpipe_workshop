@@ -2,7 +2,6 @@
  * EXEC
  * Bpipe automatically removes newlines from commands
  * so that you do not need to worry about it.
- *
  **************************************************************************/
 
 // This is a global "pipeline" variable, scope: the whole pipeline
@@ -16,7 +15,7 @@ mpileup = {
     -f $GENOME
     $input > $output
   """
-  // if we add ", false" to exec we avoid newlines removal
+  // we can add ", false" to exec we avoid newlines removal
 }
 
 run { mpileup }

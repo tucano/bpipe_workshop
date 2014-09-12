@@ -17,4 +17,7 @@ world = {
   """
 }
 
+// Once you define your pipeline stages
+// you can build and run your pipeline
+// by joining the stages using the plus operator:
 run {  hello + world }
