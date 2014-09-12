@@ -7,7 +7,6 @@ mark_duplicates =
 {
   doc title: "Mark Duplicates in BAM files",
       author: "davide.rambaldi@gmail.com"
-
   exec """
     $MARKDUPLICATES I=$input.bam O=$output.bam
     VALIDATION_STRINGENCY=SILENT

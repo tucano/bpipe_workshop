@@ -1,0 +1,2 @@
+FCID,Lane,SampleID,SampleRef,Index,Description,Control,Recipe,Operator,SampleProject
+XXXXXXXXX,1,Sample1,hg19,TTAGGC,minify,N,WES,DR,Davide_118_minify
