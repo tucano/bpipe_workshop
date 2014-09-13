@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #737373;
+    background-color: white;
+    margin: 10px 13px 10px 13px;
+}
+table {
+	margin: 10px 0 15px 0;
+	border-collapse: collapse;
+}
+td,th {	
+	border: 1px solid #ddd;
+	padding: 3px 10px;
+}
+th {
+	padding: 5px 10px;	
+}
+
+a {
+    color: #0069d6;
+}
+a:hover {
+    color: #0050a3;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+p {
+    margin-bottom: 9px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #404040;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 30px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+    background-color: #fee9cc;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #d9d9d9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+pre code {
+    background-color: #fff;
+    color:#737373;
+    font-size: 11px;
+    padding: 0;
+}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:10px auto;
+    }
+}
+@media print {
+	body,code,pre code,h1,h2,h3,h4,h5,h6 {
+		color: black;
+	}
+	table, pre {
+		page-break-inside: avoid;
+	}
+}
+</style>
+<title>8. VARIABLES</title>
+
+</head>
+<body>
+<h2>8. VARIABLES</h2>
+
+<ul>
+<li>implicit variables - variables defined by Bpipe for you</li>
+<li>explicit variables - variables you define yourself</li>
+</ul>
+
+
+<pre><code>bpipe run variables.groovy example*
+</code></pre>
+
+<h4>Implicit Variables</h4>
+
+<ul>
+<li>input - defines the name(s) of files that are inputs to your pipeline stage</li>
+<li>output - defines the name(s) of files that are outputs from your pipeline stage</li>
+<li>branch - when a pipeline is running parallel branches, the name of the current branch is available in a $branch variable.</li>
+</ul>
+
+
+<h4>EXTENSION SYNTAX</h4>
+
+<p>When you use $input and $output you are asking for generic input and output file names from Bpipe, and it will give you names corresponding to defaults that it computes from the pipeline stage name. These, however, don't always end up with file extension that are very natural, and also may not be very robust because the type of file to be used is not specified.</p>
+
+<h4>Differences from Bash Variable Syntax</h4>
+
+<p>Bpipe's variable syntax is mostly compatible with the same syntax in languages like Bash and Perl. This is very convenient because it means that you can copy and paste commands directly from your command line into your Bpipe scripts, even if they use environment variables.</p>
+
+<p>However there are some small differences between Bpipe variable syntax and Bash variable syntax</p>
+
+<p>Bpipe always expects a $ sign to be followed by a variable name. Thus operations in Bash that use $ for other things need to have the $ escaped so that Bpipe does not interpret it.</p>
+
+<h4>PREFIX</h4>
+
+<p>Bpipe offers a "magic" ".prefix" extension that lets you refer to an output, but pass to the actual command the output trimmed of its suffix.</p>
+
+<h4>DEF</h4>
+
+<p><strong><em>Problem: Bpipe is confusing variables between my parallel pipeline stages !</em></strong></p>
+
+<p>Bpipe is based on groovy which allows you to declare variables in a script without any prefix. For example, you can write something like this and it will appear to work just fine:</p>
+
+<pre><code>SAMPLE_NAME=parse_sample_name(input.bam)
+</code></pre>
+
+<p>But there's a problem here: these variables are actually global variables. That means, if you run many pipeline stages at once, they will be all sharing the same value and overwriting each other's value. Hence you would find the variables being apparently confused between different parallel paths in your pipeline.</p>
+
+<p>Fortunately there is a simple solution to this: you need to ad 'def' prior to your variables to make them local variables:</p>
+
+<pre><code>def SAMPLE_NAME=parse_sample_name(input.bam)
+</code></pre>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #737373;
+    background-color: white;
+    margin: 10px 13px 10px 13px;
+}
+table {
+	margin: 10px 0 15px 0;
+	border-collapse: collapse;
+}
+td,th {	
+	border: 1px solid #ddd;
+	padding: 3px 10px;
+}
+th {
+	padding: 5px 10px;	
+}
+
+a {
+    color: #0069d6;
+}
+a:hover {
+    color: #0050a3;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+p {
+    margin-bottom: 9px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #404040;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 30px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+    background-color: #fee9cc;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #d9d9d9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+pre code {
+    background-color: #fff;
+    color:#737373;
+    font-size: 11px;
+    padding: 0;
+}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:10px auto;
+    }
+}
+@media print {
+	body,code,pre code,h1,h2,h3,h4,h5,h6 {
+		color: black;
+	}
+	table, pre {
+		page-break-inside: avoid;
+	}
+}
+</style>
+<title>5. INPUT AND OUTPUT</title>
+
+</head>
+<body>
+<h2>5. INPUT AND OUTPUT</h2>
+
+<h4>$INPUT AND $OUTPUT</h4>
+
+<p>In this example you can see that our commands still look like normal shell commands that you might have executed at the command line, however there are two conspicuous additions that look like shell variables: <strong>$input</strong> and <strong>$output</strong>.</p>
+
+<p>These variables are defined for you implicitly by Bpipe before each pipeline stage is run.</p>
+
+<p>They automatically tell you where the input is coming from and where the output should be going.</p>
+
+<p>You could, of course, hard code the file names into your commands, but then your pipeline would depend on those file names and you would not be able to "plug and play" with your pipeline stages to connect them in different ways.</p>
+
+<p>Since you aren't specifying the output file you might wonder where the actual output went.</p>
+
+<p>Bpipe uses a systematic naming convention for files so that they are reliably the same for any given pipeline configuration but reliably different if you change the pipeline.</p>
+
+<p>To achieve this, Bpipe builds file names by naming them according to all the pipeline stages through which the file has "passed", starting with the input file as a base.</p>
+
+<p>This is really similar to what bioinformaticians do in real life, when they rename a BAM file merged and dith duplicates marked: <strong>sample1.merge.dedup.bam</strong></p>
+
+<pre><code>bpipe run inout_v1.groovy sample.bam
+</code></pre>
+
+<h4>EXTENSION METHODS</h4>
+
+<p>Bpipe offers a quick and simple way to specify file types for input and output files: adding the extension of the type of file to the <strong>$input</strong> and <strong>$output</strong> variables.</p>
+
+<pre><code>bpipe run inout_v2.groovy sample.bam
+</code></pre>
+
+<h4>STAGES ANNOTATION: @FILTER AND @TRANSFORM</h4>
+
+<p>While the above pipeline works we can make it just a little better by giving Bpipe a few small hints about what each stage in the pipeline is doing.</p>
+
+<ul>
+<li><strong>FILTER</strong> : modifying a file without changing its type</li>
+<li><strong>TRANSFORM</strong> : operations that change the format or convert it to a different format</li>
+</ul>
+
+
+<pre><code>bpipe run inout_v3.groovy sample.bam
+</code></pre>
+
+<p>Let's experiment input and output features in a real stage:</p>
+
+<pre><code>bpipe run -r dedup.groovy sample.bam
+</code></pre>
+
+<h4>INPUT SPLITTING PATTERNS: % and *</h4>
+
+<p>Bpipe uses a very simple wildcard pattern syntax to let you indicate how your files should be split into groups for processing.</p>
+
+<p>In these patterns you simply replace the portion of file names that indicates what group the file belongs to with the <strong>percent character</strong> which <strong>acts as a wildcard</strong> (matches any number of characters).</p>
+
+<p><strong><em>Files that share the same grouping portion will be passed together to the the parallel pipeline stages to process.</em></strong></p>
+
+<p>Bpipe supports one other special character in its input splitting patterns: <strong>the wildcard</strong>.</p>
+
+<p>This also acts as a wildcard match but it does not split the input into groups. Instead, it affects ordering within the groups that are split. When Bpipe matches a * character in an input splitting pattern it first splits the files into their groups (based on the % match) and then sorts them based on the portions that match the * character. This helps you ensure that even after splitting, your files are still in a sensible order.</p>
+
+<pre><code>bpipe run input_split.groovy input_*.txt
+</code></pre>
+
+<h4>MANUALLY DEFINE INPUTS</h4>
+
+<p>If you don't get the flexibility you need from the above mechanisms, you can set the branch paths yourself explicitly by specifying a Groovy List or a Map that tells Bpipe what paths you want.</p>
+
+<p>When you specify a Map, the keys in the map are interpreted as branch names and the values in the Map are interpreted as files, or lists of files, that are supplied to the branch as input.</p>
+
+<pre><code>bpipe run input_branches.groovy
+</code></pre>
+
+<p>Of course is quite boring writing groovy maps manually in the pipeline. But we can use a file as input <strong>loading it with groovy out of the pipeline</strong>.</p>
+
+<p>Consider this typical structure:</p>
+
+<pre><code>.
+├── sample1
+│   ├── SampleSheet.csv
+│   ├── sample1_L001_R1_001.fgz
+│   ├── sample1_L001_R1_002.fgz
+│   ├── sample1_L001_R1_003.fgz
+│   ├── sample1_L001_R1_004.fgz
+│   ├── sample1_L001_R2_001.fgz
+│   ├── sample1_L001_R2_002.fgz
+│   ├── sample1_L001_R2_003.fgz
+│   └── sample1_L001_R2_004.fgz
+└── sample2
+    ├── SampleSheet.csv
+    ├── sample2_L001_R1_001.fgz
+    ├── sample2_L001_R1_002.fgz
+    ├── sample2_L001_R1_003.fgz
+    ├── sample2_L001_R1_004.fgz
+    ├── sample2_L001_R2_001.fgz
+    ├── sample2_L001_R2_002.fgz
+    ├── sample2_L001_R2_003.fgz
+    └── sample2_L001_R2_004.fgz
+</code></pre>
+
+<p>We want to align each sample in a separate directory, aligning reads in pair.</p>
+
+<p>Let's use a simple groovy script to generate a <strong>input.json</strong> file:</p>
+
+<pre><code>./explicit_branch_map.groovy raw_data/sample*/*.fgz &gt; input.json
+</code></pre>
+
+<p>And we have the Map ready to be loaded in a pipeline:</p>
+
+<pre><code>bpipe run branches.groovy input.json
+</code></pre>
+</body>
+</html>

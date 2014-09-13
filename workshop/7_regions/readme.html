@@ -1,0 +1,240 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #737373;
+    background-color: white;
+    margin: 10px 13px 10px 13px;
+}
+table {
+	margin: 10px 0 15px 0;
+	border-collapse: collapse;
+}
+td,th {	
+	border: 1px solid #ddd;
+	padding: 3px 10px;
+}
+th {
+	padding: 5px 10px;	
+}
+
+a {
+    color: #0069d6;
+}
+a:hover {
+    color: #0050a3;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+p {
+    margin-bottom: 9px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #404040;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 30px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+    background-color: #fee9cc;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #d9d9d9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+pre code {
+    background-color: #fff;
+    color:#737373;
+    font-size: 11px;
+    padding: 0;
+}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:10px auto;
+    }
+}
+@media print {
+	body,code,pre code,h1,h2,h3,h4,h5,h6 {
+		color: black;
+	}
+	table, pre {
+		page-break-inside: avoid;
+	}
+}
+</style>
+<title>7. REGIONS and CHROMOSOMES</title>
+
+</head>
+<body>
+<h2>7. REGIONS and CHROMOSOMES</h2>
+
+<p>The <strong>chr</strong> statement splits execution into parallel paths based on chromosome.</p>
+
+<p>For the general case, all the files supplied as input are forwarded to every set of parallel stages supplied in the following list.</p>
+
+<p>The stages that are executed in parallel receive a special implicit variable, <strong>'chr'</strong> that can be used to reference the chromosome that should be processed. This is typically passed through to tools that can confine their operations to a genomic region as an argument.</p>
+
+<p>Explore chr and region variables</p>
+
+<h3>chr.groovy</h3>
+
+<p>Simple parallelization based on chromosome.</p>
+
+<p>You can remove/add chromosomes from the chr() method.</p>
+
+<p>Notice the use of <strong>RANGES</strong>: <code>[1..5]</code></p>
+
+<pre><code>bpipe run chr.groovy
+</code></pre>
+
+<h3>split_bam.groovy</h3>
+
+<p>Parallelizzation on regions to split a bam file by chromosomes</p>
+
+<pre><code>bpipe run chr.groovy
+</code></pre>
+
+<p>Notice the use of:</p>
+
+<pre><code>filter("$chr") { CODE_BLOCK }
+</code></pre>
+
+<p>To specify generate output files like: <strong>sample.chr1.bam</strong></p>
+
+<h3>gatk_call_variants.groovy</h3>
+
+<p>Many bioinformatics softwares support an "INTERVAL" option.</p>
+
+<p>An example is the GATK toolkit with the option <strong>-L</strong>:</p>
+
+<pre><code>--intervals / -L
+One or more genomic intervals over which to operate
+Use this option to perform the analysis over only part of the genome. This argument can be specified multiple times. You can use samtools-style intervals either explicitly on the command line (e.g. -L chr1 or -L chr1:100-200) or by loading in a file containing a list of intervals (e.g. -L myFile.intervals). Additionally, you can also specify a ROD file (such as a VCF file) in order to perform the analysis at specific positions based on the records present in the file (e.g. -L file.vcf). Finally, you can also use this to perform the analysis on the reads that are completely unmapped in the BAM file (i.e. those without a reference contig) by specifying -L unmapped.
+</code></pre>
+
+<pre><code>bpipe run gatk_call_variants.groovy
+</code></pre>
+
+<p>NOTE that also <strong>bpipe</strong> have a <strong>-L option</strong> to pass from command line the interval:</p>
+
+<pre><code>bpipe -L chr2 gatk_call_variants.groovy
+</code></pre>
+
+<h3>regions.groovy</h3>
+
+<p>It is often the case that you wish to run your pipeline but limit it to a particular genomic interval. For example, it may be that you wish to parallelize the pipeline over separate parts of the genome, or it might be that you are only interested in a subset of the genome to begin with.</p>
+
+<p>Bpipe support genomic regions in this format:</p>
+
+<pre><code>bpipe -L chr1:1-10000 regions.groovy sample.bam
+</code></pre>
+
+<p>This has a few different effects:</p>
+
+<ol>
+<li>A variable $region is available to your pipeline stages, carrying the value from the command line.</li>
+<li>A variable $chr is available to your pipeline that specifies the chromosome from the region</li>
+<li>You can reference $region.bed to reference the region in the form of a BED file. Bpipe creates this file on the fly for you when it is needed.</li>
+</ol>
+
+
+<h3>regions_from_file.groovy</h3>
+
+<p>It is quite boring to support seceral regions from command line...</p>
+
+<p>We can use a custom region variable (but we lose the region.bed feature)</p>
+
+<pre><code>bpipe run regions_from_file.groovy test.intervals
+</code></pre>
+</body>
+</html>

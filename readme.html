@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #737373;
+    background-color: white;
+    margin: 10px 13px 10px 13px;
+}
+table {
+	margin: 10px 0 15px 0;
+	border-collapse: collapse;
+}
+td,th {	
+	border: 1px solid #ddd;
+	padding: 3px 10px;
+}
+th {
+	padding: 5px 10px;	
+}
+
+a {
+    color: #0069d6;
+}
+a:hover {
+    color: #0050a3;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+p {
+    margin-bottom: 9px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #404040;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 30px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+    background-color: #fee9cc;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #d9d9d9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+pre code {
+    background-color: #fff;
+    color:#737373;
+    font-size: 11px;
+    padding: 0;
+}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:10px auto;
+    }
+}
+@media print {
+	body,code,pre code,h1,h2,h3,h4,h5,h6 {
+		color: black;
+	}
+	table, pre {
+		page-break-inside: avoid;
+	}
+}
+</style>
+<title>BPIPE WORKSHOP PROGRAM</title>
+
+</head>
+<body>
+<h1>BPIPE WORKSHOP PROGRAM</h1>
+
+<p>See README for each session in <code>workshop/</code></p>
+
+<h3>PREREQUISITES FOR THE WORKSHOP</h3>
+
+<p>A laptop with installed or avaliable remotly:</p>
+
+<ol>
+<li>bpipe (https://code.google.com/p/bpipe/)</li>
+<li>bwa (http://bio-bwa.sourceforge.net/)</li>
+<li>Picard (http://picard.sourceforge.net/command-line-overview.shtml)</li>
+<li>~1 GB of hard disk space (for input example files and intermediate file)</li>
+</ol>
+
+
+<p>I plan to make a presentation of ~60 minutes and several tutorials  (workshop)</p>
+
+<h3>GENERAL PRESENTATION (60 minutes)</h3>
+
+<p>bpipe: A framework to launch bioinformatic pipelines (KeyNote presentation)</p>
+
+<h3>WORKSHOP SESSIONS (300 minutes)</h3>
+
+<ol>
+<li>Overview: bpipe command line utility, the .bpipe directory, Logging, HTML reports (30 minutes)</li>
+<li>Basic Groovy language: Operation on Strings, Lists, Maps, Files (30 minutes)</li>
+<li>HelloBpipe: write your first pipelines with bpipe: Exec, Inputs and Outputs, Parallel tasks (30 minutes)</li>
+<li>Bpipe variables: extension syntax, prefix, dir, branch variables, var, using (30 minuts)</li>
+<li>Controlling your output: filter, transform, produce, glob, forward, preserve, from (30 minutes)</li>
+<li>Documenting your pipeline, check prerequisites, load external stages: doc, about, requires, load, BPIPE_LIB (30 minutes)</li>
+<li>Control pipeline flow and send notification: Notifications and Emails, send, check, fail, succeed (30 minutes)</li>
+<li>From abstract pipelines to real cluster jobs: Resource Managers (30 minutes)</li>
+<li>Real bioinformatic pipelines: an example pipeline with bwa, MergeSamFile, MarkDuplicates and a minified test genome (30 minutes)</li>
+<li>Advanced users: creating reports with bpipe, R and knitr (30 minutes)</li>
+</ol>
+
+</body>
+</html>

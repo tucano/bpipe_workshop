@@ -1,0 +1,329 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #737373;
+    background-color: white;
+    margin: 10px 13px 10px 13px;
+}
+table {
+	margin: 10px 0 15px 0;
+	border-collapse: collapse;
+}
+td,th {	
+	border: 1px solid #ddd;
+	padding: 3px 10px;
+}
+th {
+	padding: 5px 10px;	
+}
+
+a {
+    color: #0069d6;
+}
+a:hover {
+    color: #0050a3;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+p {
+    margin-bottom: 9px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #404040;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 30px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+    background-color: #fee9cc;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #d9d9d9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+pre code {
+    background-color: #fff;
+    color:#737373;
+    font-size: 11px;
+    padding: 0;
+}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:10px auto;
+    }
+}
+@media print {
+	body,code,pre code,h1,h2,h3,h4,h5,h6 {
+		color: black;
+	}
+	table, pre {
+		page-break-inside: avoid;
+	}
+}
+</style>
+<title>3. GROOVY</title>
+
+</head>
+<body>
+<h2>3. GROOVY</h2>
+
+<p>See also: <a href="http://groovy.codehaus.org/">CODEHAUS</a></p>
+
+<p>Bpipe is compiled as Java code but is also a groovy interpreter (isa ble to compile groovy code due to the presence of the groovy.jar)</p>
+
+<p>You can just exploit the bpipe.jar to load <strong>groovy.lang.GroovyShell</strong></p>
+
+<pre><code>java -classpath /PATH_TO_BPIPE/lib/bpipe.jar  groovy.lang.GroovyShell example.groovy
+</code></pre>
+
+<p>You can launch the code as a bpipe pipeline (see below for code examples):</p>
+
+<pre><code>bpipe run example.groovy
+</code></pre>
+
+<p>or you can install groovy and use groovy:</p>
+
+<pre><code>groovy example.groovy
+</code></pre>
+
+<p>For a better experience, use the groovysh console</p>
+
+<pre><code>groovysh
+</code></pre>
+
+<p>Hello world in groovysh:</p>
+
+<pre><code>groovy:000&gt; println "Hello, World!"
+Hello, World!
+===&gt; null
+</code></pre>
+
+<h4>CLOSURES</h4>
+
+<h5>File: closure.groovy</h5>
+
+<p>A Groovy Closure is like a "code block" or a method pointer.
+It is a piece of code that is defined and then executed at a later point:</p>
+
+<pre><code>my_closure = {
+  println "hello from my closure!"
+}
+
+my_closure()
+</code></pre>
+
+<p>Run this example with:</p>
+
+<pre><code>groovy closure.groovy
+</code></pre>
+
+<p>Without groovy installed try:</p>
+
+<pre><code>java -classpath /BPIPE_PATH/lib/bpipe.jar  groovy.lang.GroovyShell closure.groovy
+</code></pre>
+
+<h5>File: stage.groovy</h5>
+
+<p>A bpipe <strong>stage</strong> is also a groovy closure, the only difference is that, instead of executing it directly, we <strong>run</strong> it with bpipe:</p>
+
+<pre><code>my_stage = {
+  println "hello from my stage!"
+}
+
+run {
+  my_stage
+}
+</code></pre>
+
+<p>Run with:</p>
+
+<pre><code>bpipe run stage.groovy
+</code></pre>
+
+<p>Note the differences between <strong>groovy</strong> and the <strong>bpipe DSL</strong>:</p>
+
+<ol>
+<li>The closure is not executed directly but is embedded in the method <strong>Bpipe.run</strong></li>
+<li><strong>run</strong> is a method (there is no "=") with attached a <strong>code block</strong>.</li>
+<li>In the <strong>run</strong> code block we put stages we want to execute without ()</li>
+</ol>
+
+
+<p>We will see that in <strong>run</strong> we ca do special operations on stages like joining them with <strong>+</strong> (plus).</p>
+
+<p><strong>DEV NOTE:</strong></p>
+
+<p>Regular Java and Groovy blocks are executed the moment they are encountered; closures are only executed if the call() is invoked on the closure.</p>
+
+<h4>File: strings.groovy</h4>
+
+<p>Take a look at the file: <strong>strings.groovy</strong> this is pure groovy language with examples on string operations:</p>
+
+<p>launch With groovy:</p>
+
+<pre><code>groovy strings.groovy
+</code></pre>
+
+<p>Launch with bpipe</p>
+
+<pre><code>bpipe run strings.groovy
+</code></pre>
+
+<h4>File: lists.groovy</h4>
+
+<p>launch With groovy:</p>
+
+<pre><code>groovy lists.groovy
+</code></pre>
+
+<p>Launch with bpipe</p>
+
+<pre><code>bpipe run lists.groovy
+</code></pre>
+
+<h4>File: maps.groovy</h4>
+
+<p>launch With groovy:</p>
+
+<pre><code>groovy maps.groovy
+</code></pre>
+
+<p>Launch with bpipe</p>
+
+<pre><code>bpipe run maps.groovy
+</code></pre>
+
+<h4>File: files.groovy</h4>
+
+<p>launch With groovy:</p>
+
+<pre><code>groovy files.groovy
+</code></pre>
+
+<p>Launch with bpipe</p>
+
+<pre><code>bpipe run files.groovy
+</code></pre>
+
+<h4>File: template.groovy</h4>
+
+<p>The SimpleTemplateEngine that allows you to use JSP-like scriptlets (see example below), script, and EL expressions in your template in order to generate parameterized text.</p>
+
+<pre><code>import groovy.text.SimpleTemplateEngine
+
+def text = 'Dear "$firstname $lastname",\nSo nice to meet you in &lt;% print city %&gt;.\nSee you in ${month},\n${signed}'
+
+def binding = ["firstname":"Sam", "lastname":"Pullara", "city":"San Francisco", "month":"December", "signed":"Groovy-Dev"]
+
+def engine = new SimpleTemplateEngine()
+template = engine.createTemplate(text).make(binding)
+
+def result = 'Dear "Sam Pullara",\nSo nice to meet you in San Francisco.\nSee you in December,\nGroovy-Dev'
+
+assert result == template.toString()
+</code></pre>
+
+<p>To use it, you must import (also in a bpipe stage): <strong>groovy.text.SimpleTemplateEngine</strong></p>
+
+<p>Launch the example with:</p>
+
+<pre><code>groovy template.groovy
+</code></pre>
+
+<p>or</p>
+
+<pre><code>bpipe run template.groovy
+</code></pre>
+</body>
+</html>

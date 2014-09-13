@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #737373;
+    background-color: white;
+    margin: 10px 13px 10px 13px;
+}
+table {
+	margin: 10px 0 15px 0;
+	border-collapse: collapse;
+}
+td,th {	
+	border: 1px solid #ddd;
+	padding: 3px 10px;
+}
+th {
+	padding: 5px 10px;	
+}
+
+a {
+    color: #0069d6;
+}
+a:hover {
+    color: #0050a3;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+p {
+    margin-bottom: 9px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #404040;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 30px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+    background-color: #fee9cc;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #d9d9d9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+pre code {
+    background-color: #fff;
+    color:#737373;
+    font-size: 11px;
+    padding: 0;
+}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:10px auto;
+    }
+}
+@media print {
+	body,code,pre code,h1,h2,h3,h4,h5,h6 {
+		color: black;
+	}
+	table, pre {
+		page-break-inside: avoid;
+	}
+}
+</style>
+<title>25. SEND</title>
+
+</head>
+<body>
+<h2>25. SEND</h2>
+
+<p>Sends the specified content through the specified communication channel.</p>
+
+<p>The first form sends the content using the defaults that are inferred from the configuration of the channel or derived directly from the content itself. The second form allows specification of lower level details of how the content should be sent and the message.</p>
+
+<p>The purpose of send is to enable explicitly sending content such as small reports and status messages as part of the flow of your pipeline. The send command can occur inside pipeline stages that perform other processing, or stand alone as part of a dedicated pipeline stage.</p>
+
+<p>The content can be specified in three different ways. The first option simply specifies a literal text string that is used as the message directly. Note that the text string must appear within curly braces. It will be lazily evaluated just prior to sending. The html option allows creation of HTML content programmatically. The body of the closure (that is, inside the curly braces) is passed a Groovy MarkupBuilder. This can be used to create HTML that forms the body of an HTML email.</p>
+
+<p>The final form allows specification of a template. The template should end with an extension appropriate to the content type (for example, to send an HTML email, make sure the template ends with ".html"). The template file is processed as a Groovy Template which allows references to variables using the normal $ syntax, ${variable} form as well as complete Groovy programmatic logic within &lt;% %> and &lt;%= %> blocks.</p>
+
+<p>Note: a common scenario is to terminate a branch of a pipeline due to a failure or exceptional situation and to send a status message about that. To make this convenient, the succeed and fail commands can accept the same syntax as send, but also have the effect of terminating the execution of the current pipeline branch with a corresponding status message.</p>
+
+<pre><code>bpipe run send.groovy ../../minify/sample1/*.fgz
+</code></pre>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #737373;
+    background-color: white;
+    margin: 10px 13px 10px 13px;
+}
+table {
+	margin: 10px 0 15px 0;
+	border-collapse: collapse;
+}
+td,th {	
+	border: 1px solid #ddd;
+	padding: 3px 10px;
+}
+th {
+	padding: 5px 10px;	
+}
+
+a {
+    color: #0069d6;
+}
+a:hover {
+    color: #0050a3;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+p {
+    margin-bottom: 9px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #404040;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 30px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+    background-color: #fee9cc;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #d9d9d9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+pre code {
+    background-color: #fff;
+    color:#737373;
+    font-size: 11px;
+    padding: 0;
+}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:10px auto;
+    }
+}
+@media print {
+	body,code,pre code,h1,h2,h3,h4,h5,h6 {
+		color: black;
+	}
+	table, pre {
+		page-break-inside: avoid;
+	}
+}
+</style>
+<title>1. OVERVIEW</title>
+
+</head>
+<body>
+<h2>1. OVERVIEW</h2>
+
+<pre><code>cd 1_overview
+</code></pre>
+
+<h4>Run the pipeline:</h4>
+
+<pre><code>bpipe run align.groovy ../../minify/sample1/*.fgz
+</code></pre>
+
+<h4>Run the pipeline with report generation:</h4>
+
+<pre><code>bpipe run -r align.groovy ../../minify/sample1/*.fgz
+</code></pre>
+
+<p>Your report is in doc/index.html, open it!</p>
+
+<h4>Log last pipeline run</h4>
+
+<pre><code>bpipe log
+</code></pre>
+
+<p>Bpipe log is based on <code>tail</code> unix command, then we have some useaful options:</p>
+
+<p>Log 1000 lines</p>
+
+<pre><code>bpipe log -n 1000
+</code></pre>
+
+<p>Continious Log <code>tail -f &lt;file.log&gt;</code></p>
+
+<pre><code>bpipe log -f
+</code></pre>
+
+<h4>Query Input/Output files</h4>
+
+<p>Query for all files:</p>
+
+<pre><code>bpipe query
+</code></pre>
+
+<p>Query a single file:</p>
+
+<pre><code>bpipe query sample1_L001_R1_003.bam
+</code></pre>
+
+<h4>CLEANUP INTERMEDIATE FILES</h4>
+
+<p>remove all intermediate files:</p>
+
+<pre><code>bpipe cleanup
+</code></pre>
+
+<p>What you want to do?</p>
+
+<pre><code>&gt; remove/trash these files? (y/t/n)
+</code></pre>
+
+<ul>
+<li>y = Yes</li>
+<li>n = No (Cancel)</li>
+<li>t = move to .bpipe/thrash</li>
+</ul>
+
+
+<p>Just remove my intermediate files (no confirmation asked):</p>
+
+<pre><code>bpipe cleanup -y
+</code></pre>
+
+<h4>HISTORY OF LAST BPIPE RUNS</h4>
+
+<pre><code>bpipe history
+</code></pre>
+
+<h4>STOP GRACEFUL THE PIPELINE</h4>
+
+<pre><code>bpipe stop
+</code></pre>
+
+<h4>BPIPE JOBS</h4>
+
+<p>Monitor all bpipe runs in the machine:</p>
+
+<pre><code>bpipe jobs
+</code></pre>
+
+<h4>commandlog.txt</h4>
+
+<p>The command log is stored in a file called commandlog.txt in the local directory where the job is running. It is a file that is continuously appended to as each and every job is run to create an ever growing log of every command that was executed.</p>
+
+<pre><code>####################################################################################################
+# Starting pipeline at Wed Sep 03 10:57:22 CEST 2014
+# Input files:  [../../minify/sample1/sample1_L001_R1_001.fgz, ../../minify/sample1/sample1_L001_R1_002.fgz, ../../minify/sample1/sample1_L001_R1_003.fgz, ../../minify/sample1/sample1_L001_R1_004.fgz, ../../minify/sample1/sample1_L001_R2_001.fgz, ../../minify/sample1/sample1_L001_R2_002.fgz, ../../minify/sample1/sample1_L001_R2_003.fgz, ../../minify/sample1/sample1_L001_R2_004.fgz]
+# Output Log:  .bpipe/logs/9437.log
+# Stage align_bwa [sample1_L001]
+# Stage align_bwa [sample1_L001]
+# Stage align_bwa [sample1_L001]
+# Stage align_bwa [sample1_L001]
+bwa mem ../../minify/genome/chr22.fa ../../minify/sample1/sample1_L001_R1_002.fgz ../../minify/sample1/sample1_L001_R2_002.fgz | samtools view -bSu - | samtools sort - sample1_L001_R1_002;
+bwa mem ../../minify/genome/chr22.fa ../../minify/sample1/sample1_L001_R1_001.fgz ../../minify/sample1/sample1_L001_R2_001.fgz | samtools view -bSu - | samtools sort - sample1_L001_R1_001;
+bwa mem ../../minify/genome/chr22.fa ../../minify/sample1/sample1_L001_R1_003.fgz ../../minify/sample1/sample1_L001_R2_003.fgz | samtools view -bSu - | samtools sort - sample1_L001_R1_003;
+bwa mem ../../minify/genome/chr22.fa ../../minify/sample1/sample1_L001_R1_004.fgz ../../minify/sample1/sample1_L001_R2_004.fgz | samtools view -bSu - | samtools sort - sample1_L001_R1_004;
+# Stage picard_merge
+java -jar ~/libexec/picard/MergeSamFiles.jar I=sample1_L001_R1_001.bam I=sample1_L001_R1_002.bam I=sample1_L001_R1_003.bam I=sample1_L001_R1_004.bam O=sample1.merge.bam VALIDATION_STRINGENCY=SILENT CREATE_INDEX=false MSD=true ASSUME_SORTED=true USE_THREADING=true
+# Stage mark_duplicates
+java -Djava.io.tmpdir=/tmp -jar ~/libexec/picard/MarkDuplicates.jar I=sample1.merge.bam O=sample1.merge.dedup.bam VALIDATION_STRINGENCY=SILENT CREATE_INDEX=true REMOVE_DUPLICATES=false ASSUME_SORTED=true METRICS_FILE=sample1.merge.dedup.metrics
+</code></pre>
+
+<h4>EXPLORING THE .BPIPE DIRECTORY</h4>
+
+<p>For a local run (no cluster):</p>
+
+<pre><code>.bpipe
+├── checks
+├── commands
+├── executed
+├── inprogress
+├── jobs
+├── launch
+├── logs
+└── trash
+</code></pre>
+
+<ul>
+<li><strong>thrash</strong>: where you find broken intermediate files</li>
+</ul>
+
+
+<p>Clean your bpipe directory <code>rm -rf .bpipe</code> when you finish the pipeline!</p>
+</body>
+</html>

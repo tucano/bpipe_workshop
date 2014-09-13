@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #737373;
+    background-color: white;
+    margin: 10px 13px 10px 13px;
+}
+table {
+	margin: 10px 0 15px 0;
+	border-collapse: collapse;
+}
+td,th {	
+	border: 1px solid #ddd;
+	padding: 3px 10px;
+}
+th {
+	padding: 5px 10px;	
+}
+
+a {
+    color: #0069d6;
+}
+a:hover {
+    color: #0050a3;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+p {
+    margin-bottom: 9px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #404040;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 30px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+    background-color: #fee9cc;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #d9d9d9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+pre code {
+    background-color: #fff;
+    color:#737373;
+    font-size: 11px;
+    padding: 0;
+}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:10px auto;
+    }
+}
+@media print {
+	body,code,pre code,h1,h2,h3,h4,h5,h6 {
+		color: black;
+	}
+	table, pre {
+		page-break-inside: avoid;
+	}
+}
+</style>
+<title>28. RESOURCE MANAGER</title>
+
+</head>
+<body>
+<h2>28. RESOURCE MANAGER</h2>
+
+<p>See also: <a href="https://code.google.com/p/bpipe/wiki/ResourceManagers">https://code.google.com/p/bpipe/wiki/ResourceManagers</a></p>
+
+<p>In some environments commands cannot be issued directly but must be queued and run in a managed environment that controls how long they can run for and what resources (memory, CPU, storage space, etc) they can use. Bpipe supports integration with third-party Resource Manager software to run commands that are part of your pipeline in this kind of environment.</p>
+
+<p>Out of the box Bpipe supports:</p>
+
+<ul>
+<li>Torque PBS</li>
+<li>PBS Pro</li>
+<li>Sun / Oracle Grid Engine</li>
+<li>Platform LSF</li>
+</ul>
+
+
+<p>Others can be integrated if you implement a simple adapter shell script that can relay commands between Bpipe and the resource manager software.</p>
+
+<p>To implement a resource manager: <a href="https://code.google.com/p/bpipe/wiki/ImplementingAResourceManager">https://code.google.com/p/bpipe/wiki/ImplementingAResourceManager</a></p>
+
+<p>To make Bpipe use a Resource Manager to execute commands, you make a small file in the local directory (the same place as your pipeline script) called "bpipe.config". In this script you can place a single line that names the resource manager - for example:</p>
+
+<pre><code>executor="torque"
+</code></pre>
+
+<p>The following options are supported:</p>
+
+<ul>
+<li>walltime - how long the job is allowed to run. See below for format details</li>
+<li>procs - number of processors</li>
+<li>queue - the queue to use (default = "batch")</li>
+<li>memory - amount of memory to reserve (GB). Eg: "4"</li>
+<li>account - the account under which to run the command</li>
+</ul>
+
+</body>
+</html>

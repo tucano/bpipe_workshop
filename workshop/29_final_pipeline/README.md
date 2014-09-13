@@ -27,3 +27,7 @@ For each sample:
 4. Stats with samtools flagstat
 5. Reporting on alignment with send and a custom report
 
+```
+cd multi_samples
+bpipe run bwa_align.groovy input.json
+```

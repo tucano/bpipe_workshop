@@ -1,0 +1,237 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #737373;
+    background-color: white;
+    margin: 10px 13px 10px 13px;
+}
+table {
+	margin: 10px 0 15px 0;
+	border-collapse: collapse;
+}
+td,th {	
+	border: 1px solid #ddd;
+	padding: 3px 10px;
+}
+th {
+	padding: 5px 10px;	
+}
+
+a {
+    color: #0069d6;
+}
+a:hover {
+    color: #0050a3;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+p {
+    margin-bottom: 9px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #404040;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 30px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+    background-color: #fee9cc;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #d9d9d9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+pre code {
+    background-color: #fff;
+    color:#737373;
+    font-size: 11px;
+    padding: 0;
+}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:10px auto;
+    }
+}
+@media print {
+	body,code,pre code,h1,h2,h3,h4,h5,h6 {
+		color: black;
+	}
+	table, pre {
+		page-break-inside: avoid;
+	}
+}
+</style>
+<title>2. DISASTER RECOVERY</title>
+
+</head>
+<body>
+<h2>2. DISASTER RECOVERY</h2>
+
+<p>In this pipeline we have an error in the code:</p>
+
+<pre><code>cd disaster_recovery
+bpipe run align.groovy ../../minify/sample1/*.fgz
+</code></pre>
+
+<p>In the merge stage we have an error (from PICARD):</p>
+
+<pre><code>========== Stage picard_merge ==========
+ERROR: Option 'INPUT' must be specified at least 1 times
+
+[...]
+
+Pipeline failed! (2)
+
+Command failed with exit status = 1 :
+
+java -jar ~/libexec/picard/MergeSamFiles.jar O=sample1.merge.bam VALIDATION_STRINGENCY=SILENT CREATE_INDEX=false MSD=true ASSUME_SORTED=true USE_THREADING=true
+</code></pre>
+
+<p>Let's fix the error in code (add $input_strings) and we <strong>retry the pipeline in TEST MODE</strong></p>
+
+<pre><code>bpipe retry test
+</code></pre>
+
+<pre><code>
+============ Stage picard_merge ============
+
+
+Abort due to Test Mode!
+
+    Would execute: java -jar ~/libexec/picard/MergeSamFiles.jar I=sample1_L001_R1_001.bam I=sample1_L001_R1_002.bam I=sample1_L001_R1_003.bam I=sample1_L001_R1_004.bam O=sample1.merge.bam VALIDATION_STRINGENCY=SILENT CREATE_INDEX=false MSD=true ASSUME_SORTED=true USE_THREADING=true
+</code></pre>
+
+<p>With <strong>test</strong> bpipe doesn't execute the command, instead it builds the command for you and print in to STDOUT.</p>
+
+<p>Now that we have checked that the command is correct, rerun with:</p>
+
+<pre><code>bpipe retry
+</code></pre>
+
+<p>Let's try the "move to trash if I am not sure" feature.
+In the pipeline merge stage I have added a "false" to force fail of the stage "merge".</p>
+
+<pre><code>bpipe run trash_example.groovy ../../minify/sample1/*.fgz
+</code></pre>
+
+<p>The pipeline will fail with:</p>
+
+<pre><code>[...]
+
+Cleaned up file sample1.merge.bam to .bpipe/trash/sample1.merge.bam
+Pipeline failed! (2)
+
+Command failed with exit status = 1 :
+
+[...]
+</code></pre>
+
+<p>Bpipe have kindly moved my intermediate file to the trash dir for inspection.</p>
+
+<p>Verify the bam file:</p>
+
+<pre><code>samtools view .bpipe/trash/sample1.merge.bam
+</code></pre>
+
+<p>Looks good, let's move it back to the working dir:</p>
+
+<pre><code>mv .bpipe/trash/sample1.merge.bam .
+</code></pre>
+
+<p>Now remove the "false" statement and retry the pipeline:</p>
+
+<pre><code>bpipe retry
+</code></pre>
+</body>
+</html>
