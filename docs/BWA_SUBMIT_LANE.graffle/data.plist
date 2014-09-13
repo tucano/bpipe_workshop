@@ -8890,7 +8890,7 @@ PIPELINE}</string>
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{-366, 4}, {1291, 671}}</string>
+		<string>{{-366, 0}, {1291, 671}}</string>
 		<key>Zoom</key>
 		<real>1</real>
 		<key>ZoomValues</key>
