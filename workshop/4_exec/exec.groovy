@@ -7,7 +7,8 @@
 // This is a global "pipeline" variable, scope: the whole pipeline
 GENOME="../../minify/genome/chr22.fa"
 
-mpileup = {
+mpileup =
+{
   // In next sessions we will see $input and $output special variables
   exec """
     samtools mpileup

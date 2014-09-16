@@ -1,0 +1,24 @@
+{
+    "sample1": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_workshop/workshop/5_input_and_output/raw_data/sample1/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_workshop/workshop/5_input_and_output/raw_data/sample1/sample1_L001_R1_001.fgz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_workshop/workshop/5_input_and_output/raw_data/sample1/sample1_L001_R1_002.fgz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_workshop/workshop/5_input_and_output/raw_data/sample1/sample1_L001_R1_003.fgz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_workshop/workshop/5_input_and_output/raw_data/sample1/sample1_L001_R1_004.fgz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_workshop/workshop/5_input_and_output/raw_data/sample1/sample1_L001_R2_001.fgz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_workshop/workshop/5_input_and_output/raw_data/sample1/sample1_L001_R2_002.fgz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_workshop/workshop/5_input_and_output/raw_data/sample1/sample1_L001_R2_003.fgz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_workshop/workshop/5_input_and_output/raw_data/sample1/sample1_L001_R2_004.fgz"
+    ],
+    "sample2": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_workshop/workshop/5_input_and_output/raw_data/sample2/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_workshop/workshop/5_input_and_output/raw_data/sample2/sample2_L001_R1_001.fgz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_workshop/workshop/5_input_and_output/raw_data/sample2/sample2_L001_R1_002.fgz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_workshop/workshop/5_input_and_output/raw_data/sample2/sample2_L001_R1_003.fgz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_workshop/workshop/5_input_and_output/raw_data/sample2/sample2_L001_R1_004.fgz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_workshop/workshop/5_input_and_output/raw_data/sample2/sample2_L001_R2_001.fgz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_workshop/workshop/5_input_and_output/raw_data/sample2/sample2_L001_R2_002.fgz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_workshop/workshop/5_input_and_output/raw_data/sample2/sample2_L001_R2_003.fgz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_workshop/workshop/5_input_and_output/raw_data/sample2/sample2_L001_R2_004.fgz"
+    ]
+}

@@ -27,7 +27,7 @@ nice_to_see_you = {
 }
 
 
-run { hello + world }
+// run { hello + world }
 
 // run { hello + [world,mars] }
 
@@ -35,4 +35,4 @@ run { hello + world }
 
 // run { hello + [ blue + world, red + mars ] + nice_to_see_you }
 
-// run { hello + [ blue + world, red + [mars,venus] ] + nice_to_see_you }
+run { hello + [ blue + world, red + [mars,venus] ] + nice_to_see_you }

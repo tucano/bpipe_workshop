@@ -31,3 +31,22 @@ bpipe: A framework to launch bioinformatic pipelines (KeyNote presentation)
 9. Real bioinformatic pipelines: an example pipeline with bwa, MergeSamFile, MarkDuplicates and a minified test genome (30 minutes)
 10. Advanced users: creating reports with bpipe, R and knitr (30 minutes)
 
+
+### SENDING EMAIL
+
+For security reasons I have changed the password of the user:
+
+bpipe.workshop@gmail.com
+
+In order to test the email system you should create a gmail account and add this info in the bpipe.config file:
+
+```
+notifications {
+    gmail {
+        to="your.address@example.com"
+        username="bpipe.email@gmail.com"
+        password="Password of bpipe email"
+        events="FINISHED"
+    }
+}
+```
