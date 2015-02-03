@@ -5,12 +5,14 @@ split_by_chromosome =
 
   // Same as @Filter, but using a BLOCK CODE
   // Useful if you have branch/stage variables
-  filter("$chr")
+
+  transform("sam")
   {
+    output.dir = "${input.replaceAll(/\/.*/,"")}_output"
     exec "samtools view $input.bam $chr > $output"
   }
 }
 
 run {
-  chr(1..22,'X','Y') * [split_by_chromosome]
+  chr(1..22,'X','Y','M') * [split_by_chromosome]
 }
