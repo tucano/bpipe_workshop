@@ -1,9 +1,10 @@
 about title: "A simple pipeline to align paired reads with syntax errors"
 
 // USAGE: bpipe run -r align.groovy *.fagz
-REFERENCE_GENOME = "../../minify/genome/chr22.fa"
-PICMERGE         = "java -jar ~/libexec/picard/MergeSamFiles.jar"
-MARKDUPLICATES   = "java -Djava.io.tmpdir=/tmp -jar ~/libexec/picard/MarkDuplicates.jar"
+REFERENCE_GENOME   = "../../minify/genome/chr22.fa"
+PICMERGE           = "java -jar /usr/local/cluster/bin/MergeSamFiles.jar"
+MARKDUPLICATES     = "java -Djava.io.tmpdir=/tmp -jar /lustre1/tools/bin/MarkDuplicates.jar"
+BWA                = "/lustre1/tools/bin/bwa"
 
 // THIS IS A STAGE
 align_bwa =
@@ -22,7 +23,7 @@ align_bwa =
     // for each alignment command (thus taking 100% of available threads).
     // You can control it by running using the -n command, eg, to run using 4 cores in total: bpipe run -n 4 align.groovy
     exec """
-      bwa mem $REFERENCE_GENOME $input1.fgz $input2.fgz |
+      $BWA mem $REFERENCE_GENOME $input1.fgz $input2.fgz |
       samtools view -bSu - |
       samtools sort - $output.bam.prefix;
     """
@@ -44,7 +45,7 @@ picard_merge =
     def input_strings = inputs.collect() { return "I=" + it}.join(" ")
     // CORRECT is: $PICMERGE $input_strings
     exec """
-      $PICMERGE $input_strings
+      $PICMERGE
         O=$output
         VALIDATION_STRINGENCY=SILENT
         CREATE_INDEX=false

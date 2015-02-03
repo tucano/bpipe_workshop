@@ -1,9 +1,10 @@
 about title: "A simple pipeline to align paired reads with syntax errors"
 
 // USAGE: bpipe run -r align.groovy *.fagz
-REFERENCE_GENOME = "../../minify/genome/chr22.fa"
-PICMERGE         = "java -jar ~/libexec/picard/MergeSamFiles.jar"
-MARKDUPLICATES   = "java -Djava.io.tmpdir=/tmp -jar ~/libexec/picard/MarkDuplicates.jar"
+REFERENCE_GENOME   = "../../minify/genome/chr22.fa"
+PICMERGE           = "java -jar /usr/local/cluster/bin/MergeSamFiles.jar"
+MARKDUPLICATES     = "java -Djava.io.tmpdir=/tmp -jar /lustre1/tools/bin/MarkDuplicates.jar"
+BWA                = "/lustre1/tools/bin/bwa"
 
 // THIS IS A STAGE
 align_bwa =
